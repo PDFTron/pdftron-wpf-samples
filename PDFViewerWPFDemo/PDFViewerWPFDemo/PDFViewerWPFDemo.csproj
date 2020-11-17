@@ -68,7 +68,7 @@
       <HintPath>..\packages\PDFNet.8.0.1.76554\lib\net40\PDFNetLoader.dll</HintPath>
     </Reference>
     <Reference Include="PDFViewWPFToolsCS2019">
-      <HintPath>..\..\..\..\..\..\..\Work\Assemblies\PDFViewWPFToolsCS2019.dll</HintPath>
+      <HintPath>.\PDFViewWPFToolsCS2019.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
