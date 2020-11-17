@@ -1,0 +1,125 @@
+﻿<Window x:Class="PDFViewerWPFDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle}" Height="470" MinWidth="300" Width="600">
+
+    <Window.Resources>
+        <Style x:Key="style_TopBarButtons" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0 0 0 4"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="358*"/>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="52"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="5,0,5,40" Grid.RowSpan="3">
+            <Button Style="{StaticResource style_TopBarButtons}"
+                    Command="{Binding CMDOpenDocument}" Margin="0 2 0 4">
+                <StackPanel>
+                    <Image Source="/resources/fileopen.gif" Width="40"/>
+                    <TextBlock Text="Open" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDSelectText}" Margin="0 2 0 4">            
+                <StackPanel>
+                    <Image Source="/resources/texttool.gif" Width="40"/>
+                    <TextBlock Text="Select" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDFreeTextSample}">                
+                <StackPanel>
+                    <Image Source="/resources/text2tool.gif" Width="40"/>
+                    <TextBlock Text="Text Box" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDAnottateText}">                
+                <StackPanel>
+                    <Image Source="/resources/msg_sticker.png" Width="25"/>
+                    <TextBlock Text="Note" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDUndo}">                
+                <StackPanel>
+                    <Image Source="/resources/undo.png" Width="25"/>
+                    <TextBlock Text="Undo" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDRedo}">                
+                <StackPanel>
+                    <Image Source="/resources/redo.png" Width="25"/>
+                    <TextBlock Text="Redo" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <Button Grid.Row="2" Style="{StaticResource style_TopBarButtons}"
+                    Command="{Binding CMDExit}" Margin="0 0 0 2">
+            <StackPanel>
+                <Image Source="/resources/exit.png" Width="25"/>
+                <TextBlock Text="Exit" TextAlignment="Center" />
+            </StackPanel>
+        </Button>
+
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Grid.Column="1" Margin="0,0.333,0.333,-0.333">
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDPreviousPage}" Margin="0 0 4 0">                
+                <StackPanel>
+                    <Image Source="/resources/reverse_green.png" Width="25"/>
+                    <TextBlock Text="Previous" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDNextPage}" Margin="0 0 4 0">                
+                <StackPanel>
+                    <Image Source="/resources/play_green.png" Width="25"/>
+                    <TextBlock Text="Next" TextAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDZoomIn}" Margin="0 0 4 0">                
+                <StackPanel>
+                    <Image Source="/resources/zoomin_tool.gif" Width="40"/>
+                    <TextBlock Text="Zoom In" TextAlignment="Center" FontSize="10" />
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDZoomOut}" Margin="0 0 4 0">
+                
+                <StackPanel>
+                    <Image Source="/resources/zoomout_tool.gif" Width="40"/>
+                    <TextBlock Text="Zoom Out" TextAlignment="Center" FontSize="10" />
+                </StackPanel>
+            </Button>
+
+        </WrapPanel>
+
+        <ContentControl Grid.Column="1" Content="{Binding PDFViewer}" Margin="2,2,2.333,1.667" Grid.RowSpan="2"/>
+    </Grid>
+</Window>
