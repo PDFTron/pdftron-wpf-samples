@@ -3,7 +3,7 @@
 Viewer integration using PDFViewCtrl and AnnotationToolbar
 This sample demonstrate how to implement the PDFViewer on a WPF app using the MVVM pattern.
 
-Platforms: x86, x64
+Platforms: x86
 
 ![main-page](./art/main-page.png)
 
