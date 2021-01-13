@@ -71,6 +71,7 @@ namespace PDFViewerWPFDemo.ViewModel
             // Load PDF file
             PDFDoc doc = new PDFDoc("./Resources/GettingStarted.pdf");
             doc.InitSecurityHandler();
+            _undoManager = doc.GetUndoManager();
             PDFViewer.SetDoc(doc);
         }
 
