@@ -7,7 +7,7 @@
     <ProjectGuid>{CA565244-CBE4-44C2-8748-E490B385E2A9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PDFViewerWPFDemo</RootNamespace>
-    <AssemblyName>PDFViewerWPFDemoPDFTron</AssemblyName>
+    <AssemblyName>PDFViewerWPFDemo</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -125,6 +125,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Resources\GettingStarted.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Fonts\FontIcons.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -135,31 +141,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\texttool.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\fileopen.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\text2tool.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\zoomin_tool.gif" />
-    <Resource Include="Resources\zoomout_tool.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\play_green.png" />
     <Resource Include="Resources\reverse_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\msg_sticker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\redo.png" />
-    <Resource Include="Resources\undo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

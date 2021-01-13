@@ -28,9 +28,20 @@ namespace PDFViewerWPFDemo.ViewModel
             CMDOpenDocument = new Relaycommand(OpenDocument);
             CMDNextPage = new Relaycommand(NextPage);
             CMDPreviousPage = new Relaycommand(PreviousPage);
+                        
+            // Annotations
             CMDAnottateText = new Relaycommand(AddTextSample);
-            CMDFreeTextSample = new Relaycommand(AddFreeTextSample);
+            CMDFreeTextCreate = new Relaycommand(AddFreeTextSample);
             CMDSelectText = new Relaycommand(SelectText);
+            CMDSquareCreate = new Relaycommand(AddSquareAnnotation);
+            CMDArrowCreate = new Relaycommand(AddArrowAnnotation);
+            CMDOvalCreate = new Relaycommand(AddOvalAnnotation);
+            CMDSquigglyCreate = new Relaycommand(AddSquigglyAnnotation);
+            CMDUnderlineCreate = new Relaycommand(AddUnderlineAnnotation);
+            CMDStrikeoutCreate = new Relaycommand(AddStrikeoutAnnotation);
+            CMDTextHighlightCreate = new Relaycommand(AddHighlightAnnotation);
+            CMDInkCreate = new Relaycommand(AddInkAnnotation);
+
             CMDExit = new Relaycommand(ExitApp);
             CMDZoomIn = new Relaycommand(ZoomIn);
             CMDZoomOut = new Relaycommand(ZoomOut);
@@ -44,18 +55,23 @@ namespace PDFViewerWPFDemo.ViewModel
             {
                 scaleFactor = 1 / source.CompositionTarget.TransformFromDevice.M11;
             }
-
+            
             // Set working doc to Viewer
             PDFViewer = new PDFViewWPF();
             PDFViewer.PixelsPerUnitWidth = scaleFactor;
 
             // PDF Viewer Events subscription
             PDFViewer.MouseLeftButtonDown += PDFView_MouseLeftButtonDown;
-            
+
             // Enable access to the Tools available
             _toolManager = new ToolManager(PDFViewer);
             _toolManager.AnnotationAdded += _toolManager_AnnotationAdded;
             _toolManager.AnnotationRemoved += _toolManager_AnnotationRemoved;
+
+            // Load PDF file
+            PDFDoc doc = new PDFDoc("./Resources/GettingStarted.pdf");
+            doc.InitSecurityHandler();
+            PDFViewer.SetDoc(doc);
         }
 
         #region Public Properties
@@ -70,8 +86,6 @@ namespace PDFViewerWPFDemo.ViewModel
                 NotifyPropertyChanged();
             } 
         }
-
-        public 
 
         string _windowTitle = "PDFTron WPF Sample App";
         public string WindowTitle { get { return _windowTitle; } set { _windowTitle = value; } }
@@ -90,7 +104,23 @@ namespace PDFViewerWPFDemo.ViewModel
 
         public ICommand CMDAnottateText { get; set; }
 
-        public ICommand CMDFreeTextSample { get; set; }
+        public ICommand CMDFreeTextCreate { get; set; }
+
+        public ICommand CMDSquareCreate { get; set; }
+
+        public ICommand CMDArrowCreate { get; set; }
+
+        public ICommand CMDOvalCreate { get; set; }
+
+        public ICommand CMDSquigglyCreate { get; set; }
+
+        public ICommand CMDUnderlineCreate { get; set; }
+
+        public ICommand CMDStrikeoutCreate { get; set; }
+
+        public ICommand CMDTextHighlightCreate { get; set; }
+
+        public ICommand CMDInkCreate { get; set; }
 
         public ICommand CMDExit { get; set; }
 
@@ -107,9 +137,15 @@ namespace PDFViewerWPFDemo.ViewModel
 
         #region Operations
 
-        // TODO: adjust it to do in increments of 10%
-        private void ZoomIn() { PDFViewer.Zoom += 1; }
-        private void ZoomOut() { PDFViewer.Zoom -= 1; }
+        // NOTE: Zoom will perform increments of 10%
+        private void ZoomIn() 
+        { 
+            PDFViewer.Zoom +=  PDFViewer.GetZoom() * 0.1;
+        }
+        private void ZoomOut() 
+        {
+            PDFViewer.Zoom -= PDFViewer.GetZoom() * 0.1;
+        }
 
         private void Undo()
         {
@@ -175,7 +211,7 @@ namespace PDFViewerWPFDemo.ViewModel
 
             _toolManager.CreateTool(ToolManager.ToolType.e_sticky_note_create);
 
-            PDFViewer.Update();            
+            PDFViewer.Update();
         }
 
         private void AddFreeTextSample()
@@ -193,8 +229,85 @@ namespace PDFViewerWPFDemo.ViewModel
             _toolManager.CreateTool(ToolManager.ToolType.e_annot_edit);
         }
 
-        private void CheckCanExcute(PDFViewWPF view) 
-        { }
+        private void AddSquareAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_rect_create);
+        }
+
+        private void AddArrowAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_arrow_create);
+        }
+
+        private void AddOvalAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_oval_create);
+        }
+
+        private void AddSquigglyAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_text_squiggly);
+        }
+
+        private void AddUnderlineAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_text_underline);
+        }
+
+        private void AddStrikeoutAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_text_strikeout);
+        }
+
+        private void AddHighlightAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_text_highlight);
+        }
+
+        private void AddInkAnnotation()
+        {
+            var workingDoc = PDFViewer.CurrentDocument;
+            Page page = workingDoc.GetPage(PDFViewer.CurrentPageNumber);
+
+            if (page == null) return;
+
+            _toolManager.CreateTool(ToolManager.ToolType.e_ink_create);
+        }
 
         private void ExitApp() 
         {
@@ -211,11 +324,15 @@ namespace PDFViewerWPFDemo.ViewModel
 
         private void _toolManager_AnnotationRemoved(Annot annotation)
         {
+            
             ResultSnapshot snap = _undoManager.TakeSnapshot();
         }
 
         private void _toolManager_AnnotationAdded(Annot annotation)
         {
+            // Update viewer after annotation added
+            PDFViewer.Update(annotation, PDFViewer.GetCurrentPage());
+            
             ResultSnapshot snap = _undoManager.TakeSnapshot();
         }
 

@@ -4,122 +4,281 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="470" MinWidth="300" Width="600">
+        Title="{Binding WindowTitle}" 
+        Height="750"
+        MinWidth="300"
+        Width="900">
 
     <Window.Resources>
         <Style x:Key="style_TopBarButtons" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="50"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="Margin" Value="0 0 0 4"/>
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style x:Key="style_textBoxAnnotationBar" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="./Fonts/#PDFTron Glyphicons"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60"/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="358*"/>
-            <RowDefinition Height="11*"/>
-            <RowDefinition Height="52"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="5,0,5,40" Grid.RowSpan="3">
-            <Button Style="{StaticResource style_TopBarButtons}"
-                    Command="{Binding CMDOpenDocument}" Margin="0 2 0 4">
-                <StackPanel>
-                    <Image Source="/resources/fileopen.gif" Width="40"/>
-                    <TextBlock Text="Open" TextAlignment="Center" />
-                </StackPanel>
-            </Button>
+        <Border BorderThickness="0 0 0 1"
+                BorderBrush="Black">
+        <StackPanel Height="60"
+                    Margin="0 0 0 0"
+                    Orientation="Horizontal"
+                    Background="#FFDDDDDD">
+            
+            <StackPanel Orientation="Horizontal">
+                
+                <Button Style="{StaticResource style_TopBarButtons}"
+                        Command="{Binding CMDOpenDocument}">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                                   Text="&#x006C;"/>
+                        <TextBlock Text="Browse"/>
+                        </StackPanel>
+                </Button>
+            </StackPanel>
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDSelectText}" Margin="0 2 0 4">            
-                <StackPanel>
-                    <Image Source="/resources/texttool.gif" Width="40"/>
-                    <TextBlock Text="Select" TextAlignment="Center" />
-                </StackPanel>
-            </Button>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 0 0 0">
+                <Button Style="{StaticResource style_TopBarButtons}"
+                        IsEnabled="{Binding ToolsEnabled}"
+                        Command="{Binding CMDPreviousPage}">
+                    <StackPanel>
+                        <Image Source="/resources/reverse_green.png" Width="25"/>
+                        <TextBlock Text="Previous" TextAlignment="Center" />
+                    </StackPanel>
+                </Button>
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDFreeTextSample}">                
-                <StackPanel>
-                    <Image Source="/resources/text2tool.gif" Width="40"/>
-                    <TextBlock Text="Text Box" TextAlignment="Center" />
-                </StackPanel>
-            </Button>
+                <Button Style="{StaticResource style_TopBarButtons}"
+                        IsEnabled="{Binding ToolsEnabled}"
+                        Command="{Binding CMDNextPage}">
+                    <StackPanel>
+                        <Image Source="/resources/play_green.png" Width="25"/>
+                        <TextBlock Text="Next" TextAlignment="Center" />
+                    </StackPanel>
+                </Button>
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDAnottateText}">                
-                <StackPanel>
-                    <Image Source="/resources/msg_sticker.png" Width="25"/>
-                    <TextBlock Text="Note" TextAlignment="Center" />
-                </StackPanel>
-            </Button>
+                <Button Style="{StaticResource style_TopBarButtons}"
+                        IsEnabled="{Binding ToolsEnabled}"
+                        Command="{Binding CMDZoomIn}">
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                                       Text="&#xE029;"/>
+                            <TextBlock Text="Zoom In"
+                                       TextAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDUndo}">                
-                <StackPanel>
-                    <Image Source="/resources/undo.png" Width="25"/>
-                    <TextBlock Text="Undo" TextAlignment="Center" />
-                </StackPanel>
-            </Button>
+                <Button Style="{StaticResource style_TopBarButtons}"
+                        IsEnabled="{Binding ToolsEnabled}"
+                        Command="{Binding CMDZoomOut}">
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDRedo}">                
-                <StackPanel>
-                    <Image Source="/resources/redo.png" Width="25"/>
-                    <TextBlock Text="Redo" TextAlignment="Center" />
-                </StackPanel>
-            </Button>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                                   Text="&#xE030;"/>
+                        <TextBlock Text="Zoom Out"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+                
+            
         </StackPanel>
+        </Border>
 
-        <Button Grid.Row="2" Style="{StaticResource style_TopBarButtons}"
-                    Command="{Binding CMDExit}" Margin="0 0 0 2">
+        <Button Grid.Row="0"
+                Grid.Column="1"
+                BorderThickness="0 0 0 1"
+                BorderBrush="Black"
+                Style="{StaticResource style_TopBarButtons}"
+                Command="{Binding CMDExit}">
             <StackPanel>
                 <Image Source="/resources/exit.png" Width="25"/>
                 <TextBlock Text="Exit" TextAlignment="Center" />
             </StackPanel>
         </Button>
+        
+        <StackPanel Height="60"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    Background="#FFDDDDDD">
 
-        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Grid.Column="1" Margin="0,0.333,0.333,-0.333">
-
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDPreviousPage}" Margin="0 0 4 0">                
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDAnottateText}">
                 <StackPanel>
-                    <Image Source="/resources/reverse_green.png" Width="25"/>
-                    <TextBlock Text="Previous" TextAlignment="Center" />
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE313;"/>
+                    <TextBlock Text="Note"
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDNextPage}" Margin="0 0 4 0">                
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDTextHighlightCreate}">
                 <StackPanel>
-                    <Image Source="/resources/play_green.png" Width="25"/>
-                    <TextBlock Text="Next" TextAlignment="Center" />
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#x006A;"/>
+                    <TextBlock Text="Highlight"
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDZoomIn}" Margin="0 0 4 0">                
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDUnderlineCreate}">
                 <StackPanel>
-                    <Image Source="/resources/zoomin_tool.gif" Width="40"/>
-                    <TextBlock Text="Zoom In" TextAlignment="Center" FontSize="10" />
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource style_TopBarButtons}" IsEnabled="{Binding ToolsEnabled}"
-                    Command="{Binding CMDZoomOut}" Margin="0 0 4 0">
-                
-                <StackPanel>
-                    <Image Source="/resources/zoomout_tool.gif" Width="40"/>
-                    <TextBlock Text="Zoom Out" TextAlignment="Center" FontSize="10" />
+
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE103;"/>
+                    <TextBlock Text="Underline"
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
-        </WrapPanel>
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDStrikeoutCreate}">
+                <StackPanel>
 
-        <ContentControl Grid.Column="1" Content="{Binding PDFViewer}" Margin="2,2,2.333,1.667" Grid.RowSpan="2"/>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE106;"/>
+                    <TextBlock Text="Strikeout"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDSquigglyCreate}">
+                <StackPanel>
+
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#x0073;"/>
+                    <TextBlock Text="Squiggly"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDInkCreate}">
+                <StackPanel>
+
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE236;"/>
+                    <TextBlock Text="Ink"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDFreeTextCreate}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#x0050;"/>
+                    <TextBlock Text="Text"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDSquareCreate}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE095;"/>
+                    <TextBlock Text="Square"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDArrowCreate}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#x0059;"/>
+                    <TextBlock Text="Arrow"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}" 
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDOvalCreate}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE096;"/>
+                    <TextBlock Text="Oval"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}"
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDSelectText}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#x004C;"/>
+                    <TextBlock Text="Select"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                        Text="&#xE032;"                           
+                        VerticalAlignment="Center"/>
+            
+            <Button Style="{StaticResource style_TopBarButtons}"
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDUndo}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE222;"/>
+                    <TextBlock Text="Undo"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource style_TopBarButtons}"
+                    IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDRedo}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE223;"/>
+                    <TextBlock Text="Redo"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+
+        <ContentControl Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Height="600"
+                        VerticalAlignment="Stretch"
+                        Content="{Binding PDFViewer}"/>
     </Grid>
 </Window>
