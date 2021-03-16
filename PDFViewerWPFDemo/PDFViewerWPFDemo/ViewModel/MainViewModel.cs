@@ -59,9 +59,12 @@ namespace PDFViewerWPFDemo.ViewModel
             // Set working doc to Viewer
             PDFViewer = new PDFViewWPF();
             PDFViewer.PixelsPerUnitWidth = scaleFactor;
+            PDFViewer.SetPagePresentationMode(PDFViewWPF.PagePresentationMode.e_single_continuous);
+            PDFViewer.AllowDrop = true;
 
             // PDF Viewer Events subscription
             PDFViewer.MouseLeftButtonDown += PDFView_MouseLeftButtonDown;
+            PDFViewer.Drop += PDFViewer_Drop;
 
             // Enable access to the Tools available
             _toolManager = new ToolManager(PDFViewer);
@@ -340,8 +343,6 @@ namespace PDFViewerWPFDemo.ViewModel
         /// <summary>
         /// On Left Mouse Button Down checks which tool is selected and anottate
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void PDFView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var workingDoc = PDFViewer.CurrentDocument;
@@ -353,6 +354,30 @@ namespace PDFViewerWPFDemo.ViewModel
             Page page = workingDoc.GetPage(1);
 
             if (page == null) return;
+        }
+
+        /// <summary>
+        /// Handle when a file is dragged and dropped onto the PDFView Control
+        /// </summary>
+        private void PDFViewer_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Note: Assuming only 1 file was dropped
+                string[] file_paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (file_paths.Length > 0)
+                {
+                    // Let's only handle the first file dropped
+                    string file_path = file_paths[0];
+
+                    if (System.IO.Path.GetExtension(file_path) != ".pdf")
+                        return;
+
+                    PDFDoc doc = new PDFDoc(file_path);
+                    PDFViewer.SetDoc(doc);
+                }
+            }
         }
 
         #endregion
