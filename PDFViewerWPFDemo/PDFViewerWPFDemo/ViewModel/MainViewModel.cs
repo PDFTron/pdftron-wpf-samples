@@ -41,6 +41,7 @@ namespace PDFViewerWPFDemo.ViewModel
             CMDStrikeoutCreate = new Relaycommand(AddStrikeoutAnnotation);
             CMDTextHighlightCreate = new Relaycommand(AddHighlightAnnotation);
             CMDInkCreate = new Relaycommand(AddInkAnnotation);
+            CMDStampImage = new Relaycommand(StampImage);
 
             CMDExit = new Relaycommand(ExitApp);
             CMDZoomIn = new Relaycommand(ZoomIn);
@@ -137,6 +138,8 @@ namespace PDFViewerWPFDemo.ViewModel
         public ICommand CMDUndo { get; set; }
 
         public ICommand CMDRedo { get; set; }
+
+        public ICommand CMDStampImage { get; set; }
         #endregion
 
         #region Operations
@@ -311,6 +314,44 @@ namespace PDFViewerWPFDemo.ViewModel
             if (page == null) return;
 
             _toolManager.CreateTool(ToolManager.ToolType.e_ink_create);
+        }
+
+        private void StampImage()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image (*.jpg) | *.jpg";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    PDFViewer.DocLock(true);
+
+                    // Embed a JPEG image to the output document. 
+                    Image img = Image.Create(PDFViewer.GetDoc().GetSDFDoc(), openFileDialog.FileName);
+
+                    Stamper s = new Stamper(Stamper.SizeType.e_relative_scale, .05, .05);
+                    s.SetSize(Stamper.SizeType.e_relative_scale, 0.5, 0.5);
+                    //set position of the image to the center, left of PDF pages
+                    s.SetAlignment(Stamper.HorizontalAlignment.e_horizontal_left, Stamper.VerticalAlignment.e_vertical_center);
+                    s.SetFontColor(new ColorPt(0, 0, 0, 0));
+                    s.SetRotation(180);
+                    s.SetAsBackground(false);
+
+                    //only stamp on the selected page
+                    int curPage = PDFViewer.CurrentPageNumber;
+                    s.StampImage(PDFViewer.GetDoc(), img, new PageSet(curPage, curPage));
+
+                    PDFViewer.Update(); // refresh viewer
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Image Stamp failed");
+                }
+                finally
+                {
+                    PDFViewer.DocUnlock();
+                }
+            }
         }
 
         private void ExitApp() 

@@ -238,6 +238,17 @@
 
             <Button Style="{StaticResource style_TopBarButtons}"
                     IsEnabled="{Binding ToolsEnabled}"
+                    Command="{Binding CMDStampImage}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
+                               Text="&#xE139;"/>
+                    <TextBlock Text="Stamp"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            
+            <Button Style="{StaticResource style_TopBarButtons}"
+                    IsEnabled="{Binding ToolsEnabled}"
                     Command="{Binding CMDSelectText}">
                 <StackPanel>
                     <TextBlock Style="{StaticResource style_textBoxAnnotationBar}"
