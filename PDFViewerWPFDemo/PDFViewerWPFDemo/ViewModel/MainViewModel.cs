@@ -11,7 +11,7 @@ namespace PDFViewerWPFDemo.ViewModel
 {
     class MainViewModel : BaseViewModel
     {
-        TextSearch textSearch = new TextSearch();
+        TextSearch textSearch;
 
         ToolManager _toolManager;
         UndoManager _undoManager;
@@ -19,7 +19,9 @@ namespace PDFViewerWPFDemo.ViewModel
         public MainViewModel()
         {
             // Initilizes PDFNet
-            PDFNet.Initialize();
+            PDFNet.Initialize("demo:1629991648523:78e4805d03000000005e485462887551161519118686561bf312807cdd");
+
+            textSearch = new TextSearch();
 
             // Make sure to Terminate any processes
             Application.Current.SessionEnding += Current_SessionEnding;
@@ -369,16 +371,34 @@ namespace PDFViewerWPFDemo.ViewModel
 
         private void _toolManager_AnnotationRemoved(Annot annotation)
         {
-            
-            ResultSnapshot snap = _undoManager.TakeSnapshot();
+            TakeSnapshot();
         }
 
         private void _toolManager_AnnotationAdded(Annot annotation)
         {
+            TakeSnapshot();
+
             // Update viewer after annotation added
             PDFViewer.Update(annotation, PDFViewer.GetCurrentPage());
-            
-            ResultSnapshot snap = _undoManager.TakeSnapshot();
+        }
+
+        private void TakeSnapshot()
+        {
+            bool isLocked = false;
+            try
+            {
+                PDFViewer.DocLock(true);
+                isLocked = true;
+
+                ResultSnapshot snap = _undoManager.TakeSnapshot();
+
+            }
+            catch { }
+            finally
+            {
+                if (isLocked)
+                    PDFViewer.DocUnlock();
+            }
         }
 
         /// <summary>
