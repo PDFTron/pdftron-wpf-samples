@@ -338,6 +338,7 @@ namespace PDFViewerWPFDemo.ViewModel
                     s.SetFontColor(new ColorPt(0, 0, 0, 0));
                     s.SetRotation(180);
                     s.SetAsBackground(false);
+                    s.SetAsAnnotation(true);
 
                     //only stamp on the selected page
                     int curPage = PDFViewer.CurrentPageNumber;
